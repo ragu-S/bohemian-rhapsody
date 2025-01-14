@@ -4,7 +4,8 @@ export type TAPIError = {
 }
 
 export type TQueryResponse = {
-  id: string;
+  id: number;
+  type: string;
   country: string;
   cover_image: string;
   format: string[];

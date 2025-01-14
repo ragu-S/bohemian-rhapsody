@@ -1,84 +1,51 @@
-import AlbumList from './modules/albums/components/album-list/AlbumList';
-import { useGetResultsByQuery } from './services/hooks/useGetResultsByQuery';
-
+import AlbumList from './modules/albums/album-list/AlbumList';
 import Filters from './modules/filters/Filters';
-import TopNavigation from './modules/top-navigation/TopNavigation';
+import SearchBar from './modules/search/search-bar';
+import { useSearch } from './services/hooks/useSearch';
 import { FiltersContext } from './services/context/filters-context';
-import { useEffect, useState } from 'react';
-import { getFilterOptionsFromUrlParams } from './services/utils/get-filter-options-from-url-params';
-import { TFilterQueryParams } from './services/hooks/types';
+import { FavouritesContext } from './services/context/favourites-context';
+import { useUpdateSelectedFilters } from './services/hooks/useUpdateSelectedFilters';
 import { useFilterOptions } from './services/hooks/useFilterOptions';
+import { useGetResultsByQuery } from './services/hooks/useGetResultsByQuery';
+import { useFavouritesAlbums } from './services/hooks/useFavouritesAlbums';
+import { customLoggerFunction } from './services/utils/custom-logger';
+import { LOGGER_ERROR_TYPES } from './services/constants';
+import { TAPIError } from './services/hooks/types';
 
 import './App.css'
 
 function App() {
-  const onFailure = (err: any) => {
-    console.error(err);
+  const onFailure = (err: TAPIError) => {
+    customLoggerFunction(LOGGER_ERROR_TYPES.API_ERROR, err);
   }
 
-  const [selectedFilters, setSelectedFilters] = useState(null as TFilterQueryParams | null);
-  const queryResponse = useGetResultsByQuery(selectedFilters, onFailure);
+  const [selectedFilters, updateSelectedFilters] = useUpdateSelectedFilters();
+  const [searchQuery, setSearchQuery] = useSearch();
+  const queryResponse = useGetResultsByQuery(selectedFilters, searchQuery, onFailure);
   const filters = useFilterOptions(queryResponse, selectedFilters);
-
-  useEffect(() => {
-    // On page load, check URL params, else add default filter options via History.pushState()
-    const filterOptions = getFilterOptionsFromUrlParams();
-
-    setSelectedFilters(filterOptions);
-  }, []);
-
-  const updateSelectedFilters = ({ type, label }: { type: string, label: string }) => {
-    if(selectedFilters) {
-      if(type in selectedFilters) {
-        const selectedFilter = selectedFilters[type];
-
-        if(selectedFilter.includes(label)) {
-          if(selectedFilter.length > 1) {
-            // filter out selected entry from list
-            selectedFilters[type] =  selectedFilter.filter(filterLabel => filterLabel !== label);
-          }
-          else {
-            // Unselect selected type and remove entry from object attributes
-            delete selectedFilters[type];
-          }
-        }
-        else {
-          selectedFilters[type].push(label)
-        }
-
-      }
-      else {
-        // add filter to selected filter list
-        selectedFilters[type] = [label];
-      }
-
-      setSelectedFilters({ ...selectedFilters });
-    }
-  }
+  const [favouriteAlbums, updateFavouriteAlbums] = useFavouritesAlbums();
 
   return (
     <>
       <main className="bg-white">
-        <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+        <SearchBar searchQuery={searchQuery} onSearch={setSearchQuery} />
+        <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-20">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">Albums</h1>
-
-          <div className="flex items-center">
-            <TopNavigation />
-          </div>
-
         </div>
 
         <section aria-labelledby="products-heading" className="pb-24 pt-6">
-          <section className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-            <FiltersContext.Provider value={{ filters, updateSelectedFilters }}>
-              <Filters filters={filters} />
-            </FiltersContext.Provider>
-            <div className="lg:col-span-3">
-              <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
-                <AlbumList albums={queryResponse} />
-              </section>
-            </div>
-          </section>
+            <section className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+              <FiltersContext.Provider value={{ filters, updateSelectedFilters }}>
+                <Filters filters={filters} />
+              </FiltersContext.Provider>
+              <div className="lg:col-span-3">
+                <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
+                  <FavouritesContext.Provider value={{ favouriteAlbums, setFavouriteAlbum: updateFavouriteAlbums }}>
+                    <AlbumList albums={queryResponse} />
+                  </FavouritesContext.Provider>
+                </section>
+              </div>
+            </section>
         </section>
 
       </main>

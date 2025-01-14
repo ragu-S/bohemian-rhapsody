@@ -1,4 +1,4 @@
 import { createContext } from "react";
-import { TFilterOptions, TUpdateSelectedFilters } from "./types";
+import { TFilter, TUpdateSelectedFilters } from "./types";
 
-export const FiltersContext = createContext({} as { filters: TFilterOptions, updateSelectedFilters: TUpdateSelectedFilters });
+export const FiltersContext = createContext({} as { filters: TFilter[], updateSelectedFilters: TUpdateSelectedFilters });

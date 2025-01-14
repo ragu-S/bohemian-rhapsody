@@ -3,7 +3,7 @@ import { getFilterOptions } from "../utils/get-filter-options";
 import { TFilterQueryParams, TQueryResponse } from "./types";
 
 export const useFilterOptions = (queryResponse: TQueryResponse[], selectedFilters: TFilterQueryParams | null) => {
-  const [filters, setFilters] = useState(getFilterOptions(queryResponse));
+  const [filters, setFilters] = useState( Object.values(getFilterOptions(queryResponse)));
 
   useEffect(() => {
     if(queryResponse.length > 0 && selectedFilters) {
@@ -19,7 +19,9 @@ export const useFilterOptions = (queryResponse: TQueryResponse[], selectedFilter
         }
       });
 
-      setFilters(filtersFromResponse);
+      const filtersAsArray = Object.values(filtersFromResponse);
+
+      setFilters(filtersAsArray);
     }
   }, [selectedFilters, queryResponse]);
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import FilterDrawerContents from "./FilterDrawerContents";
-import { TFilter } from "../../services/context/types";
-import { CollapseIcon } from "../core/components/Icons/CollapseIcon";
-import { ExpansionIcon } from "../core/components/Icons/ExpansionIcon";
+import FilterDrawerContents from "../filter-drawer-contents/FilterDrawerContents";
+import { TFilter } from "../../../services/context/types";
+import { CollapseIcon } from "../../core/components/Icons/CollapseIcon";
+import { ExpansionIcon } from "../../core/components/Icons/ExpansionIcon";
 
 const FilterExpansionDrawer = ({ type, label, entries }: TFilter) => {
   const [isOpen, setIsOpen] = useState(false);
