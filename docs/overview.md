@@ -2,7 +2,7 @@
 
 This is a standard react application scaffolded with vite and uses tailwind to help with styling
 
-Live app is available here: 
+Live app is available here: https://main.d2onj1qg7anin1.amplifyapp.com/
 
 
 ## Project Structure Highlights
