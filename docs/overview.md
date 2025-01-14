@@ -4,6 +4,8 @@ This is a standard react application scaffolded with vite and uses tailwind to h
 
 Live app is available here: https://main.d2onj1qg7anin1.amplifyapp.com/
 
+![image](https://github.com/user-attachments/assets/9880bb66-4385-409e-82b4-2951b6e6a7bc)
+
 
 ## Project Structure Highlights
 
@@ -20,6 +22,7 @@ Live app is available here: https://main.d2onj1qg7anin1.amplifyapp.com/
 ## Features
 - filtering is fully functional via the filters component
 - artists can be searchable both in the search bar and in the filters
+- albums can be saved to favourites, this is stored in session storage, so retains selections even if page is refreshed
 - search bar allows users to enter relevant queries by entering a query and clicking the search icon
 
 
