@@ -22,6 +22,7 @@ Live app is available here: https://main.d2onj1qg7anin1.amplifyapp.com/
 ## Features
 - filtering is fully functional via the filters component
 - artists can be searchable both in the search bar and in the filters
+- albums can be saved to favourites, this is stored in session storage, so retains selections even if page is refreshed
 - search bar allows users to enter relevant queries by entering a query and clicking the search icon
 
 
