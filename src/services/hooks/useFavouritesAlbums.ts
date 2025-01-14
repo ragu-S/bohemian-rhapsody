@@ -13,6 +13,11 @@ const getFavouriteAlbumsFromSessionStorage = () => {
   return [] as TFavouriteAlbum[];
 }
 
+/**
+ * This hook handles the favourites state, by extracting it from session storage by default
+ * first, and whenever the updateFavouriteAlbums is called. Favourites is stored in context
+ * and updated via users clicking on the favourites icon on a given AlbumTile
+ */
 export const useFavouritesAlbums = (): [TFavouriteAlbum[], TSetFavouriteAblum] => {
   const [favouriteAlbums, setFavouriteAlbum] = useState(getFavouriteAlbumsFromSessionStorage());
   
@@ -30,8 +35,6 @@ export const useFavouritesAlbums = (): [TFavouriteAlbum[], TSetFavouriteAblum] =
       setFavouriteAlbum([...favouriteAlbums, {id, type}]);
     }
   };
-
- 
 
   return [favouriteAlbums, updateFavouriteAlbums]
 };

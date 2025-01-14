@@ -2,6 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import { SEARCH_DEBOUNCE } from "../constants";
 
+/**
+ * This hook handles setting the search query every time the search bar is updated, via setQuery
+ * setQuery will be used by the SearchBar component whenever a user updates the search bar with a
+ * new query
+ */
 export const useSearch = (): [string, React.Dispatch<React.SetStateAction<string>>] => {
   const [query, setQuery] = useState("");
 

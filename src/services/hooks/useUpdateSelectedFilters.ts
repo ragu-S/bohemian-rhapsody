@@ -3,6 +3,11 @@ import { getFilterOptionsFromUrlParams } from "../utils/get-filter-options-from-
 import { TUpdateSelectedFilters } from "../context/types";
 import { TFilterQueryParams } from "./types";
 
+/**
+ * this hooks instantiates the default selected filters and waits for filters to get selected via
+ * updateSelectedFilters call. The updateSelectedFilters is stored in the context and used by the FilterOption
+ * compenent, which renders the filter options and call this function when any option is changed
+ */
 export const useUpdateSelectedFilters = (): [TFilterQueryParams | null, TUpdateSelectedFilters] => {
   const [selectedFilters, setSelectedFilters] = useState(null as TFilterQueryParams | null);
   
