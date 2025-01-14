@@ -1,0 +1,77 @@
+import { TFilter } from "../context/types";
+import { TQueryResponse } from "../hooks/types";
+
+export function appendFilterEntry(filter: string[], entry: string) {
+  if(!entry) return filter;
+
+  if(!filter.includes(entry)) {
+    filter.push(entry);
+  }
+
+  return filter;
+}
+
+export function appendArrayFilterEntries(filter: string[], entries: string[]) {
+  entries.forEach(entry => appendFilterEntry(filter, entry));
+}
+
+export const getFilterOptions = (results: TQueryResponse[]): Record<string, TFilter>  => {
+  const groupedFilteredOptions = results.reduce((filterList, { year, genre, title, country, style, format }) => {
+    appendFilterEntry(filterList['year'].entries, year);
+
+    appendArrayFilterEntries(filterList['genre'].entries, genre)
+
+    // Artist names aren't provided as a dedicated field, currently only appears to be avaiable in the title and label api, hiwch 
+    appendFilterEntry(filterList['artist'].entries, title.split('-')[0]);
+
+    appendFilterEntry(filterList['country'].entries, country);
+
+    appendArrayFilterEntries(filterList['style'].entries, style);
+
+    appendArrayFilterEntries(filterList['format'].entries, format);
+
+    return filterList;
+  }, {
+    year: {
+      type: 'year',
+      label: 'Year',
+      entries: []
+    },
+    genre: {
+      type: 'genre',
+      label: 'Genre',
+      entries: []
+    },
+    artist: {
+      type: 'artist',
+      label: 'Artist',
+      entries: []
+    },
+    country: {
+      type: 'country',
+      label: 'Country',
+      entries: []
+    },
+    style: {
+      type: 'style',
+      label: 'Style',
+      entries: []
+    },
+    format: {
+      type: 'format',
+      label: 'Format',
+      entries: []
+    }
+  });
+
+  const sortedGroupedFilteredOptions = Object.entries(groupedFilteredOptions).reduce((sortedFilterOptions, [key, { type, label, entries }]) => {
+    // Default string sort
+    entries.sort();
+    
+    sortedFilterOptions[key] = { type, label, entries: new Map(entries.map((entry: string) => [entry, false])) }
+    return sortedFilterOptions;
+  }, {} as Record<string, TFilter>);
+
+  return sortedGroupedFilteredOptions;
+};
+

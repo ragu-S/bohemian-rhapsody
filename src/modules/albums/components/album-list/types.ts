@@ -1,6 +1,6 @@
 export type TAlbum = {
     title: string;
-    thumb: string;
+    cover_image: string;
 }
 
 export type TAlbumList = (TAlbum & { id: string })[]
