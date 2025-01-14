@@ -27,7 +27,7 @@ function App() {
     setSelectedFilters(filterOptions);
   }, []);
 
-  const updateSelectedFilters = ({ type, label }: { type: string, label: string, value: string }) => {
+  const updateSelectedFilters = ({ type, label }: { type: string, label: string }) => {
     if(selectedFilters) {
       if(type in selectedFilters) {
         const selectedFilter = selectedFilters[type];

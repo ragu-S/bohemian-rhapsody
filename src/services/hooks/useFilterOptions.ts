@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getFilterOptions } from "../utils/get-filter-options";
-import { TFilterQueryParams } from "./types";
+import { TFilterQueryParams, TQueryResponse } from "./types";
 
-export const useFilterOptions = (queryResponse, selectedFilters: TFilterQueryParams | null) => {
+export const useFilterOptions = (queryResponse: TQueryResponse[], selectedFilters: TFilterQueryParams | null) => {
   const [filters, setFilters] = useState(getFilterOptions(queryResponse));
 
   useEffect(() => {
