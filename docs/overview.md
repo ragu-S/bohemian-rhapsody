@@ -4,6 +4,8 @@ This is a standard react application scaffolded with vite and uses tailwind to h
 
 Live app is available here: https://main.d2onj1qg7anin1.amplifyapp.com/
 
+![image](https://github.com/user-attachments/assets/9880bb66-4385-409e-82b4-2951b6e6a7bc)
+
 
 ## Project Structure Highlights
 
